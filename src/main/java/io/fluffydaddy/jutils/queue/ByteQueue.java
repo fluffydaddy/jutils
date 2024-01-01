@@ -2,6 +2,7 @@ package io.fluffydaddy.jutils.queue;
 
 public class ByteQueue {
     public static final int QUEUE_SIZE = 2 * 1024 * 1024;
+
     private byte[] mBuffer;
     private int mHead;
     private int mStored;
@@ -22,7 +23,6 @@ public class ByteQueue {
         }
         if (length < 0) {
             throw new IllegalArgumentException("length < 0");
-
         }
         if (length == 0) {
             return 0;
