@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-package io.fluffydaddy.jutils.queue;
+package io.fluffydaddy.jutils.collection;
 
-public interface ByteQueueListener {
-    void onInputUpdate();
+public interface Unit<T> {
+	void accept(T it);
 }

@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package io.fluffydaddy.jutils.queue;
+package io.fluffydaddy.jutils.collection;
 
-public interface ByteQueueListener {
-    void onInputUpdate();
+/**
+ * @param <T> Input the transformer.
+ * @param <R> Result of transformer.
+ */
+public interface Lazy<T, R> {
+    R invoke(T t);
 }
