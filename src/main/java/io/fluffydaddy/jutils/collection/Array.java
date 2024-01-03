@@ -89,6 +89,7 @@ public class Array<E> extends ArrayList<E> implements Deque<E> {
             if (condition.test(element)) {
                 return element;
             }
+            return null;
         }
         return null;
     }
@@ -99,7 +100,6 @@ public class Array<E> extends ArrayList<E> implements Deque<E> {
                 return element;
             }
         }
-        
         return null;
     }
     
@@ -107,7 +107,6 @@ public class Array<E> extends ArrayList<E> implements Deque<E> {
         for (E element : this) {
             iterable.accept(element);
         }
-        
         return this;
     }
     
@@ -320,12 +319,7 @@ public class Array<E> extends ArrayList<E> implements Deque<E> {
             add(value);
             return this;
         }
-        remove(index);
-        if (size() == 0) {
-            add(value);
-        } else {
-            add(index, value);
-        }
+        set(index, value);
         return this;
     }
     
