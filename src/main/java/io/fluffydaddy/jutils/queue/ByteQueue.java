@@ -16,23 +16,62 @@
 
 package io.fluffydaddy.jutils.queue;
 
+/**
+ * A class for processing bytes in a queue for input, such as a console.
+ * <p>
+ * This class provides a simple byte queue implementation that can be used
+ * for handling input and output operations with byte data. </p>
+ */
 public class ByteQueue {
+    /**
+     * The default size of the queue in bytes.
+     */
     public static final int QUEUE_SIZE = 2 * 1024 * 1024;
-
+    
+    /**
+     * The byte buffer used for the queue.
+     */
     private byte[] mBuffer;
+    
+    /**
+     * The head index of the queue.
+     */
     private int mHead;
+    
+    /**
+     * The number of stored bytes in the queue.
+     */
     private int mStored;
-
+    
+    /**
+     * Constructs a ByteQueue with the specified size.
+     *
+     * @param size The size of the byte queue.
+     */
     public ByteQueue(int size) {
         mBuffer = new byte[size];
     }
-
+    
+    /**
+     * Gets the number of available bytes in the queue.
+     *
+     * @return The number of available bytes.
+     */
     public int getAvailable() {
         synchronized (this) {
             return mStored;
         }
     }
-
+    
+    /**
+     * Reads bytes from the queue into the provided buffer.
+     *
+     * @param buffer The destination buffer.
+     * @param offset The starting offset in the destination buffer.
+     * @param length The maximum number of bytes to read.
+     * @return The actual number of bytes read.
+     * @throws InterruptedException If the thread is interrupted while waiting.
+     */
     public int read(byte[] buffer, int offset, int length) throws InterruptedException {
         if (length + offset > buffer.length) {
             throw new IllegalArgumentException("length + offset > buffer.length");
@@ -69,7 +108,15 @@ public class ByteQueue {
             return totalRead;
         }
     }
-
+    
+    /**
+     * Writes bytes from the provided buffer into the queue.
+     *
+     * @param buffer The source buffer.
+     * @param offset The starting offset in the source buffer.
+     * @param length The number of bytes to write.
+     * @throws InterruptedException If the thread is interrupted while waiting.
+     */
     public void write(byte[] buffer, int offset, int length) throws InterruptedException {
         if (length + offset > buffer.length) {
             throw new IllegalArgumentException("length + offset > buffer.length");
@@ -106,7 +153,11 @@ public class ByteQueue {
             }
         }
     }
-
+    
+    /**
+     * Resets the queue by creating a new byte buffer and setting head and stored
+     * indices to their initial values.
+     */
     public void reset() {
         mBuffer = new byte[QUEUE_SIZE];
         mHead = 0;

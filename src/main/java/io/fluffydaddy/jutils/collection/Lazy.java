@@ -17,9 +17,20 @@
 package io.fluffydaddy.jutils.collection;
 
 /**
- * @param <T> Input the transformer.
- * @param <R> Result of transformer.
+ * <p>
+ * The {@code Lazy<T, R>} interface represents a lazy operation that takes an input of type {@code T} and produces
+ * a result of type {@code R}. It is similar to the {@code java.util.function.Function} interface.
+ * </p>
+ *
+ * @param <T> The type of the input to the lazy operation
+ * @param <R> The type of the result produced by the lazy operation
  */
 public interface Lazy<T, R> {
+    /**
+     * Applies this lazy operation to the given argument.
+     *
+     * @param t the input argument
+     * @return the result of the lazy operation
+     */
     R invoke(T t);
 }

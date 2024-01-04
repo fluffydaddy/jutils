@@ -16,19 +16,42 @@
 
 package io.fluffydaddy.jutils.collection;
 
+/**
+ * A simple data structure representing a pair of elements, typically a key and a value.
+ *
+ * @param <K> the type of the first element (key)
+ * @param <V> the type of the second element (value)
+ */
 public class Pair<K, V> {
-    private final K first;
-    private final V second;
-
+    
+    private final K first;   // The first element of the pair
+    private final V second;  // The second element of the pair
+    
+    /**
+     * Constructs a new Pair with the specified first and second elements.
+     *
+     * @param first  the first element of the pair
+     * @param second the second element of the pair
+     */
     public Pair(K first, V second) {
         this.first = first;
         this.second = second;
     }
-
+    
+    /**
+     * Gets the first element (key) of the pair.
+     *
+     * @return the first element of the pair
+     */
     public K getFirst() {
         return first;
     }
-
+    
+    /**
+     * Gets the second element (value) of the pair.
+     *
+     * @return the second element of the pair
+     */
     public V getSecond() {
         return second;
     }

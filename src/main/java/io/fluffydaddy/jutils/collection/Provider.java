@@ -23,12 +23,14 @@ import java.util.Objects;
 
 /**
  * <p>
- * There are a number of ways to create a {@link Provider} instance. Some common methods:
+ * A {@code Provider} represents a source of values, which may be present or absent. It provides methods for retrieving
+ * and transforming the value it holds.
  * </p>
  *
- * @param <T> Type of value represented by producer
+ * @param <T> Type of value represented by the provider
  */
 public interface Provider<T> {
+    
     /**
      * Returns the value of this provider if it has a value present, otherwise throws {@code java.lang.IllegalStateException}.
      *
@@ -49,18 +51,18 @@ public interface Provider<T> {
      * Returns the value of this provider if it has a value present. Returns the given default value if a value is
      * not available.
      *
+     * @param defaultValue If value is not present.
      * @return the value or the default value.
-     * @since 4.3
      */
     T getOrElse(T defaultValue);
     
     /**
-     * Returns a new {@link Provider} whose value is the value of this producer transformed using the given function.
+     * Returns a new {@link Provider} whose value is the value of this provider transformed using the given function.
      *
      * <p>
-     * The resulting producer will be live, so that each time it is queried, it queries the original (this) provider
+     * The resulting provider will be live, so that each time it is queried, it queries the original (this) provider
      * and applies the transformation to the result. Whenever the original provider has no value, the new provider
-     * will also have no value and the transformation will not be called.
+     * will also have no value, and the transformation will not be called.
      * </p>
      *
      * <p>
@@ -69,8 +71,9 @@ public interface Provider<T> {
      * to tasks that use the new provider for input values.
      * </p>
      *
+     * @param <S>         Transform type.
      * @param transformer The transformer to apply to values. May return {@code null}, in which case the provider will have no value.
-     * @since 4.3
+     * @return Returns a new {@link Provider} whose value is the value of this provider transformed using the given function.
      */
     <S> Provider<S> map(Lazy<? super T, ? extends S> transformer);
     
@@ -80,12 +83,13 @@ public interface Provider<T> {
      * <p>
      * The new provider returned by {@code flatMap} will be live, so that each time it is queried, it queries
      * this provider and applies the transformation to the result. Whenever this provider has no value, the new
-     * provider will also have no value and the transformation will not be called.
+     * provider will also have no value, and the transformation will not be called.
      * </p>
      *
      * @param transformer The transformer to apply to values. May return {@code null}, in which case the
-     * provider will have no value.
-     * @since 5.0
+     *                    provider will have no value.
+     * @param <S>         Transform type.
+     * @return Returns a new {@link Provider} from the value of this provider transformed using the given function.
      */
     <S> Provider<S> flatMap(Lazy<? super T, ? extends Provider<? extends S>> transformer);
     
@@ -101,6 +105,8 @@ public interface Provider<T> {
      * given default value.
      *
      * @param value The default value to use when this provider has no value.
+     * @return Returns a {@link Provider} whose value is the value of this provider, if present, otherwise uses the
+     * value from the given provider, if present.
      */
     Provider<T> orElse(T value);
     
@@ -109,6 +115,8 @@ public interface Provider<T> {
      * value from the given provider, if present.
      *
      * @param provider The provider whose value should be used when this provider has no value.
+     * @return Returns a {@link Provider} whose value is the value of this provider, if present, otherwise uses the
+     * value from the given provider, if present.
      */
     Provider<T> orElse(Provider<? extends T> provider);
     
@@ -117,34 +125,46 @@ public interface Provider<T> {
      * provider value using the supplied combiner function.
      *
      * <p>
-     * If the supplied providers represents a task or the output of a task, the resulting provider
+     * If the supplied providers represent a task or the output of a task, the resulting provider
      * will carry the dependency information.
      * </p>
      *
-     * @param right the second provider to combine with
+     * @param right    the second provider to combine with
      * @param combiner the combiner of values
-     * @param <B> the type of the second provider
-     * @param <R> the type of the result of the combiner
+     * @param <B>      the type of the second provider
+     * @param <R>      the type of the result of the combiner
      * @return a combined provider
-     *
-     * @since 6.6
      */
     <B, R> Provider<R> combine(Provider<B> right, BiFunction<T, B, R> combiner);
     
     /**
-     * */
+     * Creates an empty {@code Provider} with no value.
+     *
+     * @param <T> the type of the value
+     * @return an empty provider
+     */
     static <T> Provider<T> empty() {
         return new Producer<>(null);
     }
     
     /**
-     * */
+     * Creates a {@code Provider} with the specified value.
+     *
+     * @param value the value to be used by the provider
+     * @param <T>   the type of the value
+     * @return a provider with the specified value
+     */
     static <T> Provider<T> of(T value) {
         return new Producer<>(Objects.requireNonNull(value));
     }
     
     /**
-     * */
+     * Creates a {@code Provider} with the specified nullable value.
+     *
+     * @param value the nullable value to be used by the provider
+     * @param <T>   the type of the value
+     * @return a provider with the specified nullable value
+     */
     static <T> Provider<T> ofNullable(T value) {
         return value == null ? empty() : new Producer<>(value);
     }

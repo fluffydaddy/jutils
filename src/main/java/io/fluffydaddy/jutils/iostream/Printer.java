@@ -15,18 +15,36 @@
  */
 
 package io.fluffydaddy.jutils.iostream;
-
 import java.io.PrintStream;
 import java.io.Writer;
 
+/**
+ * A PrintWriter with an underlying Writer.
+ * <p>
+ * This class extends PrintStream and provides a convenient way to write formatted
+ * text to a Writer, serving as a bridge between character streams and byte streams. </p>
+ */
 public class Printer extends PrintStream {
+    /**
+     * The underlying Writer.
+     */
     public Writer writer;
-
+    
+    /**
+     * Constructs a new Printer with the specified Writer.
+     *
+     * @param writer The Writer to which formatted text is written.
+     */
     public Printer(Writer writer) {
         super(new OutputStreamWriter(writer));
         this.writer = writer;
     }
-
+    
+    /**
+     * Returns a string representation of the Printer.
+     *
+     * @return A string representation of the Printer.
+     */
     @Override
     public String toString() {
         return writer.toString();

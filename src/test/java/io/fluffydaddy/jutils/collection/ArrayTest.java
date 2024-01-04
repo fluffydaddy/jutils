@@ -16,19 +16,15 @@
 
 package io.fluffydaddy.jutils.collection;
 
-/**
- * Represents a functional interface that takes an input argument of type T and does not return a result.
- * This interface is similar to {@link java.util.function.Consumer}.
- *
- * @param <T> the type of the input argument
- * @see java.util.function.Consumer
- */
-public interface Unit<T> {
-	
-	/**
-	 * Accepts an input argument and performs some operation on it.
-	 *
-	 * @param it the input argument
-	 */
-	void accept(T it);
+public class ArrayTest {
+    public static void main(String[] args) {
+        new ArrayTest().test();
+    }
+    
+    public void test() {
+        Array<Integer> items = new Array<Integer>()
+                .insert(0, 4, 9, 12, 2, 8, 3, 6)
+                .sortedBy(it -> it % 2 == 0);
+        System.out.println(items.joinToString(Object::toString, ",", "[", "]"));
+    }
 }

@@ -16,6 +16,21 @@
 
 package io.fluffydaddy.jutils.queue;
 
+/**
+ * A listener interface for tracking updates in a ByteQueue.
+ * <p>
+ * This interface is intended for classes that want to be notified when new
+ * input data is written into a ByteQueue. </p>
+ */
 public interface ByteQueueListener {
+    /**
+     * Called when the input in the associated ByteQueue is updated.
+     * <p>
+     * This method is invoked when new data is written into the ByteQueue.
+     * Implementing classes should perform any necessary actions in response to
+     * the input update. </p>
+     *
+     * @see ByteWriter
+     */
     void onInputUpdate();
 }

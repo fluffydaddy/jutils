@@ -15,32 +15,62 @@
  */
 
 package io.fluffydaddy.jutils.initial;
-
 import io.fluffydaddy.jutils.collection.Array;
 import io.fluffydaddy.jutils.collection.Lazy;
 
 import java.util.HashMap;
 
+/**
+ * An abstract class providing lazy initialization functionality.
+ * <p>
+ * This class allows subclasses to perform lazy initialization of their members.
+ * It uses the Lazy class to achieve lazy loading, providing a more efficient
+ * way to initialize objects when needed.
+ *
+ * @param <T> The type of the subclass extending LazyInit.
+ */
 public abstract class LazyInit<T extends LazyInit> {
+	
+	/**
+	 * Abstract method for subclasses to implement lazy initialization logic.
+	 *
+	 * @param lazyInit The array to store Lazy instances for lazy initialization.
+	 */
 	public abstract void lazyInit(Array<Lazy<T, ?>> lazyInit);
 	
-	protected final Array<Lazy<T, ?>> lazyInits;
+	/**
+	 * The array to store Lazy instances for lazy initialization.
+	 */
+	protected final Array<Lazy<T, ?>> lazyStore;
 	
+	/**
+	 * Constructs a LazyInit object.
+	 */
 	public LazyInit() {
-		lazyInit(lazyInits = new Array<>());
+		lazyInit(lazyStore = new Array<>());
 	}
 	
-	protected java.util.HashMap<Lazy<T, ?>, Object> init() {
+	/**
+	 * Initializes and invokes all the lazy initialization operations.
+	 *
+	 * @return A HashMap containing the results of the lazy initialization operations.
+	 */
+	@SuppressWarnings("unchecked")
+	protected HashMap<Lazy<T, ?>, Object> init() {
 		HashMap<Lazy<T, ?>, Object> init = new HashMap<>();
-		for (Lazy<T, ?> lazyInit : lazyInits) {
-			init.put(lazyInit, lazyInit.invoke((T)this));
+		for (Lazy<T, ?> lazyInit : lazyStore) {
+			init.put(lazyInit, lazyInit.invoke((T) this));
 		}
 		return init;
 	}
 	
+	/**
+	 * Invokes all the lazy initialization operations without returning the results.
+	 */
+	@SuppressWarnings("unchecked")
 	protected void invokeAll() {
-		for (Lazy<T, ?> lazyInit : lazyInits) {
-			lazyInit.invoke((T)this);
+		for (Lazy<T, ?> lazyInit : lazyStore) {
+			lazyInit.invoke((T) this);
 		}
 	}
 }

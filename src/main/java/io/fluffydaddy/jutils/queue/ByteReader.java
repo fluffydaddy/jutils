@@ -19,29 +19,63 @@ package io.fluffydaddy.jutils.queue;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * A class for reading bytes from a ByteQueue.
+ * <p>
+ * This class extends InputStream and can be used to read bytes from a ByteQueue.
+ * It also supports notifying a listener when new data is read from the queue. </p>
+ */
 public class ByteReader extends InputStream {
-	private final ByteQueue queue;
-	private final ByteQueueListener listener;
-
-	public ByteReader(ByteQueue queue, ByteQueueListener listener) {
-		this.queue = queue;
-		this.listener = listener;
-	}
+	/**
+	 * The ByteQueue to read from.
+	 */
+    private final ByteQueue queue;
 	
-	@Override
-	public int read() throws IOException {
-		return read(new byte[0], 0, 0);
-	}
+	/**
+	 * The listener to notify when new data is read.
+	 */
+    private final ByteQueueListener listener;
 	
-	@Override
-	public int read(byte[] b, int off, int len) throws IOException {
-		if (listener != null) {
-			listener.onInputUpdate();
-		}
-		try {
-			return queue.read(b, off, len);
-		} catch (InterruptedException e) {
-			throw new IOException(e.getCause());
-		}
-	}
+	/**
+	 * Creates a new ByteReader instance.
+	 *
+	 * @param queue     The ByteQueue to read from.
+	 * @param listener  The listener to notify when new data is read.
+	 */
+    public ByteReader(ByteQueue queue, ByteQueueListener listener) {
+        this.queue = queue;
+        this.listener = listener;
+    }
+	
+	/**
+	 * Reads a byte from the input stream.
+	 *
+	 * @return  The byte read.
+	 * @throws IOException  If an I/O error occurs.
+	 */
+    @Override
+    public int read() throws IOException {
+        return read(new byte[0], 0, 0);
+    }
+	
+	/**
+	 * Reads bytes into an array from the input stream.
+	 *
+	 * @param b     The buffer into which the data is read.
+	 * @param off   The start offset in the destination array.
+	 * @param len   The maximum number of bytes to read.
+	 * @return      The total number of bytes read into the buffer, or -1 if there is no more data.
+	 * @throws IOException  If an I/O error occurs.
+	 */
+    @Override
+    public int read(byte[] b, int off, int len) throws IOException {
+        if (listener != null) {
+            listener.onInputUpdate();
+        }
+        try {
+            return queue.read(b, off, len);
+        } catch (InterruptedException e) {
+            throw new IOException(e.getCause());
+        }
+    }
 }

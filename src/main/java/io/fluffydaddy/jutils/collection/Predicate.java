@@ -16,6 +16,20 @@
 
 package io.fluffydaddy.jutils.collection;
 
+/**
+ * <p>
+ * The {@code Predicate} interface represents a predicate (boolean-valued function) of one argument. It is commonly
+ * used to define conditions that can be tested against elements of a collection or used in filtering operations.
+ * </p>
+ *
+ * @param <T> The type of the input to the predicate
+ */
 public interface Predicate<T> {
+	/**
+	 * Evaluates this predicate on the given argument.
+	 *
+	 * @param it the input argument
+	 * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
+	 */
 	boolean test(T it);
 }

@@ -16,27 +16,56 @@
 
 package io.fluffydaddy.jutils.queue;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * A class for writing bytes to a ByteQueue.
+ * <p>
+ * This class extends OutputStream and can be used to write bytes to a ByteQueue. </p>
+ */
 public class ByteWriter extends OutputStream {
+	/**
+	 * The ByteQueue to write to.
+	 */
 	private final ByteQueue queue;
 	
-	public ByteWriter(ByteQueue queue) {
-		this.queue = queue;
-	}
+	/**
+	 * Creates a new ByteWriter instance.
+	 *
+	 * @param queue The ByteQueue to write to.
+	 */
+    public ByteWriter(ByteQueue queue) {
+        this.queue = queue;
+    }
 	
-	@Override
-	public void write(int oneByte) throws IOException {
-		write(new byte[]{(byte)oneByte}, 0, 1);
-	}
+	/**
+	 * Writes a byte to the output stream.
+	 *
+	 * @param oneByte The byte to be written.
+	 * @throws IOException If an I/O error occurs.
+	 */
+    @Override
+    public void write(int oneByte) throws IOException {
+        write(new byte[]{(byte) oneByte}, 0, 1);
+    }
 	
-	@Override
-	public void write(byte[] b, int off, int len) throws IOException {
-		try {
-			this.queue.write(b, off, len);
-		} catch (InterruptedException e) {
-			throw new IOException(e.getCause());
-		}
-	}
+	/**
+	 * Writes bytes from an array to the output stream.
+	 *
+	 * @param b   The data.
+	 * @param off The start offset in the data.
+	 * @param len The number of bytes to write.
+	 * @throws IOException If an I/O error occurs.
+	 */
+    @Override
+    public void write(byte @NotNull[] b, int off, int len) throws IOException {
+        try {
+            this.queue.write(b, off, len);
+        } catch (InterruptedException e) {
+            throw new IOException(e.getCause());
+        }
+    }
 }

@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package io.fluffydaddy.jutils.collection;
+package io.fluffydaddy.jutils.format;
 
-/**
- * Represents a functional interface that takes an input argument of type T and does not return a result.
- * This interface is similar to {@link java.util.function.Consumer}.
- *
- * @param <T> the type of the input argument
- * @see java.util.function.Consumer
- */
-public interface Unit<T> {
-	
-	/**
-	 * Accepts an input argument and performs some operation on it.
-	 *
-	 * @param it the input argument
-	 */
-	void accept(T it);
+import java.util.Calendar;
+import java.util.Date;
+
+public class FormatTest {
+    public static void main(String[] args) {
+        new FormatTest().test();
+    }
+    
+    public void test() {
+        MessageFormatter msg = new MessageFormatter();
+        msg.println("The %s to day, hello user %s!");
+        msg.println("Hello, %s!");
+        System.out.println(msg.format(Calendar.getInstance().get(Calendar.YEAR), "You", "World"));
+    }
 }
