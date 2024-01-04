@@ -1,5 +1,5 @@
 # JUtils
-[![](https://jitpack.io/v/fluffydaddy/jutils.svg)](https://jitpack.io/#fluffydaddy/jutils)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.fluffydaddy/jutils/1.0.3.svg?label=Maven%20Central&color=success)](https://search.maven.org/artifact/io.github.fluffydaddy/jutils/1.0.3)
 
 ***
 
@@ -7,32 +7,30 @@
 
 ### Gradle
 ``` groovy
+    // repository
     repositories {
-        maven { url 'https://jitpack.io' }
-        // or
         maven { url 'https://repo1.maven.org/maven2' }
     }
     
+    // dependency
     dependencies {
-        // from jitpack.io
-        implementation 'com.github.fluffydaddy:jutils:1.0.2'
-        // or maven central
         implementation 'io.github.fluffydaddy:jutils:1.0.2'
     }
 ```
 ### Maven
 
 ``` xml
+<!-- REPOSITORY -->
+<repository>
+    <id>central</id>
+    <url>https://repo1.maven.org/maven2</url>
+</repository>
+
+<!-- DEPENDENCY -->
 <dependency>
-        <groupId>com.github.fluffydaddy</groupId>
-        <arifactId>jutils</arifactId>
-        <version>1.0.2</version>
-</dependency>
-<!-- OR -->
-<dependency>
-        <groupId>io.github.fluffydaddy</groupId>
-        <arifactId>jutils</arifactId>
-        <version>1.0.2</version>
+    <groupId>io.github.fluffydaddy</groupId>
+    <arifactId>jutils</arifactId>
+    <version>1.0.2</version>
 </dependency>
 ```
 
@@ -70,4 +68,28 @@ msg.println("Hello, %s!");
 System.out.println(msg.format(Calendar.getInstance().get(Calendar.YEAR), "You", "World"));
 ```
 * Use Byte Queue IO.
+***
+``` java
+ByteQueue byteQueue = new ByteQueue(ByteQueue.QUEUE_SIZE);
+        Thread thread = new Thread(() -> {
+            System.out.println("Waiting...");
+            byte[] buf = new byte[ByteQueue.QUEUE_SIZE];
+            try {
+                int read = byteQueue.read(buf, 0, buf.length);
+                System.out.println("Received - " + new String(buf, 0, read));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        System.out.println("Started for reading...");
+        thread.start();
+        Thread.sleep(2500);
+        String msg = "Hello, World!";
+        try {
+            System.out.println("Writing...");
+            byteQueue.write(msg.getBytes(StandardCharsets.UTF_8), 0, msg.length());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+```
 * And Other...
