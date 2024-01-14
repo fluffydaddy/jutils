@@ -14,7 +14,7 @@
     
     // dependency
     dependencies {
-        implementation 'io.github.fluffydaddy:jutils:1.0.2'
+        implementation 'io.github.fluffydaddy:jutils:1.0.3'
     }
 ```
 ### Maven
@@ -30,7 +30,7 @@
 <dependency>
     <groupId>io.github.fluffydaddy</groupId>
     <arifactId>jutils</arifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 

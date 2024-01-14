@@ -22,6 +22,7 @@
         <maven.deploy.plugin.version>3.1.1</maven.deploy.plugin.version>
         <nexus.staging.maven.plugin.version>1.6.9</nexus.staging.maven.plugin.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.jetbrains</groupId>
@@ -78,21 +79,8 @@
         </repository>
     </distributionManagement>
 
-    <profiles>
-        <!-- GPG Signature on release -->
-        <profile>
-            <id>release-sign-artifacts</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
-        </profile>
-    </profiles>
-
     <build>
-        <defaultGoal>install</defaultGoal>
+        <defaultGoal>package</defaultGoal>
         <resources>
             <resource>
                 <directory>${project.basedir}</directory>
